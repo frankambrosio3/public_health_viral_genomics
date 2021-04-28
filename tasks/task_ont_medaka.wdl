@@ -98,12 +98,12 @@ task consensus {
     if [ -z "$num_total" ] ; then num_total="0" ; fi
     echo $num_total | tee NUM_TOTAL
 
-    count_pool_1=$(samtools view ~{samplename}.primertrimmed.nCoV-2019_1.sorted.bam | wc -l)
-    count_pool_2=$(samtools view ~{samplename}.primertrimmed.nCoV-2019_2.sorted.bam | wc -l)
-    count_total=$(( $count_pool_1 + $count_pool_2 ))
+    #count_pool_1=$(samtools view ~{samplename}.primertrimmed.nCoV-2019_1.sorted.bam | wc -l)
+    #count_pool_2=$(samtools view ~{samplename}.primertrimmed.nCoV-2019_2.sorted.bam | wc -l)
+    #count_total=$(( $count_pool_1 + $count_pool_2 ))
 
-    python -c "print ( round(($count_pool_1 / $count_total ) * 100, 2) )" | tee POOL1_PERCENT
-    python -c "print ( round(($count_pool_2 / $count_total ) * 100, 2) )" | tee POOL2_PERCENT
+    #python -c "print ( round(($count_pool_1 / $count_total ) * 100, 2) )" | tee POOL1_PERCENT
+    #python -c "print ( round(($count_pool_2 / $count_total ) * 100, 2) )" | tee POOL2_PERCENT
 
     # clean up fasta header
     echo ">~{samplename}" > ~{samplename}.medaka.consensus.fasta
@@ -121,8 +121,8 @@ task consensus {
     Int     number_ATCG = read_string("NUM_ACTG")
     Int     number_Degenerate = read_string("NUM_DEGENERATE")
     Int     number_Total = read_string("NUM_TOTAL")
-    Float     pool1_percent = read_string("POOL1_PERCENT")
-    Float     pool2_percent = read_string("POOL2_PERCENT")
+    #Float     pool1_percent = read_string("POOL1_PERCENT")
+    #Float     pool2_percent = read_string("POOL2_PERCENT")
     Float     percent_reference_coverage = read_string("PERCENT_REF_COVERAGE")
     String  artic_pipeline_version = read_string("VERSION")
   }

@@ -16,15 +16,11 @@ workflow nCoV19_pipeline {
   output {
     Array[String]	seq_platform	=	titan_clearlabs.seq_platform
 
-    Array[File]	dehosted_reads	=	titan_clearlabs.dehosted_reads
 
     Array[String]	kraken_version	=	titan_clearlabs.kraken_version
     Array[Float]	kraken_human	=	titan_clearlabs.kraken_human
     Array[Float]	kraken_sc2	=	titan_clearlabs.kraken_sc2
     Array[String]	kraken_report	=	titan_clearlabs.kraken_report
-    Array[Float]	kraken_human_dehosted	=	titan_clearlabs.kraken_human_dehosted
-    Array[Float]	kraken_sc2_dehosted	=	titan_clearlabs.kraken_sc2_dehosted
-    Array[String]	kraken_report_dehosted	=	titan_clearlabs.kraken_report_dehosted
 
     Array[File]	aligned_bam	=	titan_clearlabs.aligned_bam
     Array[File]	aligned_bai	=	titan_clearlabs.aligned_bai
@@ -35,8 +31,8 @@ workflow nCoV19_pipeline {
     Array[Int]	assembly_length_unambiguous	=	titan_clearlabs.assembly_length_unambiguous
     Array[Int]	number_Degenerate	=	titan_clearlabs.number_Degenerate
     Array[Int]	number_Total	=	titan_clearlabs.number_Total
-    Array[Float]	pool1_percent	=	titan_clearlabs.pool1_percent
-    Array[Float]	pool2_percent	=	titan_clearlabs.pool2_percent
+    #Array[Float]	pool1_percent	=	titan_clearlabs.pool1_percent
+    #Array[Float]	pool2_percent	=	titan_clearlabs.pool2_percent
     Array[Float]	percent_reference_coverage	=	titan_clearlabs.percent_reference_coverage
     Array[String]	assembly_method	=	titan_clearlabs.assembly_method
 
