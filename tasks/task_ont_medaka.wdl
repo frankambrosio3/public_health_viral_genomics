@@ -70,18 +70,20 @@ task consensus {
     String?    artic_primer_version="V3"
     Int?      normalise=20000
     Int?      cpu=8
+    String medaka_model="r941_min_high_g360"
+    String docker="staphb/artic-ncov2019:1.3.0"
   }
 
-  command{
+  command <<<
     # version control
     echo "Medaka via $(artic -v)" | tee VERSION
-    artic minion --medaka --normalise ${normalise} --threads ${cpu} --scheme-directory /artic-ncov2019/primer_schemes --read-file ${filtered_reads} nCoV-2019/${artic_primer_version} ${samplename}
+    artic minion --medaka --medaka-mode ~{medakka_model} --normalise ~{normalise} --threads ~{cpu} --scheme-directory /fieldbioinformatics/test-data/primer-schemes --read-file ~{filtered_reads} nCoV-2019/~{artic_primer_version} ~{samplename}
 
-    num_N=$( grep -v ">" ${samplename}.consensus.fasta | grep -o 'N' | wc -l )
+    num_N=$( grep -v ">" ~{samplename}.consensus.fasta | grep -o 'N' | wc -l )
     if [ -z "$num_N" ] ; then num_N="0" ; fi
     echo $num_N | tee NUM_N
 
-    num_ACTG=$( grep -v ">" ${samplename}.consensus.fasta | grep -o -E "C|A|T|G" | wc -l )
+    num_ACTG=$( grep -v ">" ~{samplename}.consensus.fasta | grep -o -E "C|A|T|G" | wc -l )
     if [ -z "$num_ACTG" ] ; then num_ACTG="0" ; fi
     echo $num_ACTG | tee NUM_ACTG
 
@@ -92,7 +94,7 @@ task consensus {
     if [ -z "$num_degenerate" ] ; then num_degenerate="0" ; fi
     echo $num_degenerate | tee NUM_DEGENERATE
 
-    num_total=$( grep -v ">" ${samplename}.consensus.fasta | grep -o -E '[A-Z]' | wc -l )
+    num_total=$( grep -v ">" ~{samplename}.consensus.fasta | grep -o -E '[A-Z]' | wc -l )
     if [ -z "$num_total" ] ; then num_total="0" ; fi
     echo $num_total | tee NUM_TOTAL
 
@@ -104,17 +106,17 @@ task consensus {
     python -c "print ( round(($count_pool_2 / $count_total ) * 100, 2) )" | tee POOL2_PERCENT
 
     # clean up fasta header
-    echo ">${samplename}" > ${samplename}.medaka.consensus.fasta
-    grep -v ">" ${samplename}.consensus.fasta >> ${samplename}.medaka.consensus.fasta
+    echo ">~{samplename}" > ~{samplename}.medaka.consensus.fasta
+    grep -v ">" ~{samplename}.consensus.fasta >> ~{samplename}.medaka.consensus.fasta
 
-  }
+  >>>
 
   output {
-    File    consensus_seq = "${samplename}.medaka.consensus.fasta"
-    File    sorted_bam = "${samplename}.trimmed.rg.sorted.bam"
-    File    trim_sorted_bam = "${samplename}.primertrimmed.rg.sorted.bam"
-    File    trim_sorted_bai = "${samplename}.primertrimmed.rg.sorted.bam.bai"
-    File    medaka_pass_vcf = "${samplename}.pass.vcf.gz"
+    File    consensus_seq = "~{samplename}.medaka.consensus.fasta"
+    File    sorted_bam = "~{samplename}.trimmed.rg.sorted.bam"
+    File    trim_sorted_bam = "~{samplename}.primertrimmed.rg.sorted.bam"
+    File    trim_sorted_bai = "~{samplename}.primertrimmed.rg.sorted.bam.bai"
+    File    medaka_pass_vcf = "~{samplename}.pass.vcf.gz"
     Int     number_N = read_string("NUM_N")
     Int     number_ATCG = read_string("NUM_ACTG")
     Int     number_Degenerate = read_string("NUM_DEGENERATE")
@@ -126,7 +128,7 @@ task consensus {
   }
 
   runtime {
-    docker:       "theiagen/artic-ncov2019:1.1.3"
+    docker:       "~{docker}"
     memory:       "16 GB"
     cpu:          8
     disks:        "local-disk 100 SSD"
