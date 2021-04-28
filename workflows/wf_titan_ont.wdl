@@ -96,8 +96,8 @@ workflow titan_ont {
     Int	assembly_length_unambiguous	=	consensus.number_ATCG
     Int	number_Degenerate	=	consensus.number_Degenerate
     Int	number_Total	=	consensus.number_Total
-    Float	pool1_percent	=	consensus.pool1_percent
-    Float	pool2_percent	=	consensus.pool2_percent
+    #Float	pool1_percent	=	consensus.pool1_percent
+    #Float	pool2_percent	=	consensus.pool2_percent
     Float	percent_reference_coverage	=	consensus.percent_reference_coverage
     String	assembly_method	=	consensus.artic_pipeline_version
 
