@@ -20,6 +20,7 @@ workflow titan_clearlabs {
     String? artic_primer_version  = "V3"
     String  pangolin_docker_image = "staphb/pangolin:2.3.8-pangolearn-2021-04-14"
     Int?  normalise  = 20000
+    String medaka_model = "r941_min_high_g360"
   }
   call qc_utils.fastqc_se as fastqc_se_raw {
     input:
