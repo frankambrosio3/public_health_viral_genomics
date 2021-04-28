@@ -90,7 +90,7 @@ task consensus {
     # calculate percent coverage (Wu Han-1 genome length: 29903bp)
     python -c "print ( round( ($num_ACTG / 29903 ) * 100, 2 ) )" | tee PERCENT_REF_COVERAGE
 
-    num_degenerate=$( grep -v ">" ${samplename}.consensus.fasta | grep -o -E "B|D|E|F|H|I|J|K|L|M|O|P|Q|R|S|U|V|W|X|Y|Z" | wc -l )
+    num_degenerate=$( grep -v ">" ~${samplename}.consensus.fasta | grep -o -E "B|D|E|F|H|I|J|K|L|M|O|P|Q|R|S|U|V|W|X|Y|Z" | wc -l )
     if [ -z "$num_degenerate" ] ; then num_degenerate="0" ; fi
     echo $num_degenerate | tee NUM_DEGENERATE
 
