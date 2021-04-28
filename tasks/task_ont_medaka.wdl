@@ -77,7 +77,7 @@ task consensus {
   command <<<
     # version control
     echo "Medaka via $(artic -v)" | tee VERSION
-    artic minion --medaka --medaka-mode ~{medakka_model} --normalise ~{normalise} --threads ~{cpu} --scheme-directory /fieldbioinformatics/test-data/primer-schemes --read-file ~{filtered_reads} nCoV-2019/~{artic_primer_version} ~{samplename}
+    artic minion --medaka --medaka-mode ~{medaka_model} --normalise ~{normalise} --threads ~{cpu} --scheme-directory /fieldbioinformatics/test-data/primer-schemes --read-file ~{filtered_reads} nCoV-2019/~{artic_primer_version} ~{samplename}
 
     num_N=$( grep -v ">" ~{samplename}.consensus.fasta | grep -o 'N' | wc -l )
     if [ -z "$num_N" ] ; then num_N="0" ; fi
